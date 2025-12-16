@@ -1386,6 +1386,31 @@ a:focus {
 /*******************************/
 /*********** Blog CSS **********/
 /*******************************/
+.blogdetails {
+    padding-top:120px !important;
+    margin:0 5rem !important;
+  /* padding: 50px 0; */
+}
+
+/* Blog card */
+.blog-item {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  height: 100%;
+}
+
+/* Blog image */
+.blog-img img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Blog text spacing */
+.blog-text {
+  padding-top: 15px;
+}
 .blog {
     position: relative;
     width: 100%;
@@ -1466,6 +1491,9 @@ a:focus {
     position: relative;
     margin-top: 45px;
     background: #EF233C;
+}
+.blog-footer{
+    margin:0;
 }
 
 .footer .container-fluid {
