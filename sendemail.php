@@ -70,7 +70,7 @@ if ($userName && $senderEmail && $userPhone && $message) {
   }
 
 	
-  $url = 'https://chatbot.veloxn.com/api/send?number=91' . $userPhone . $Message . '&instance_id=67DFEDB423C34&access_token=67dfed7721270';
+  $url = 'https://chatbot.veloxn.com/api/send?number=91' . $userPhone . $Message . '&instance_id=69C24E3CAE057&access_token=69c24e29e2a5e';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
