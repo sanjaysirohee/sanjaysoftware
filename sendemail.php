@@ -33,36 +33,40 @@ $subjectV = $_POST['subjectV'];
 
 // If all values exist, send the email
 
-
-$ip_address=$_SERVER['REMOTE_ADDR'];
+// die("<script>alert('at form values line'); history.back();</script>");
+// $ip_address=$_SERVER['REMOTE_ADDR'];
+// echo "hii";
+// echo $ip_address;
 /*Get user ip address details with geoplugin.net*/
-$geopluginURL='http://www.geoplugin.net/php.gp?ip='.$ip_address;
-$addrDetailsArr = unserialize(file_get_contents($geopluginURL));
+// $geopluginURL='http://www.geoplugin.net/php.gp?ip='.$ip_address;
+// $addrDetailsArr = unserialize(file_get_contents($geopluginURL));
 /*Get City name by return array*/
-$city = $addrDetailsArr['geoplugin_city'];
+// $city = $addrDetailsArr['geoplugin_city'];
 /*Get Country name by return array*/
-$country = $addrDetailsArr['geoplugin_countryName'];
+// $country = $addrDetailsArr['geoplugin_countryName'];
 /*Comment out these line to see all the posible details*/
 /*echo '<pre>';
 print_r($addrDetailsArr);
 die();*/
-if(!$city){
-   $city='Not Define';
-}if(!$country){
-   $country='Not Define';
-}
+// if(!$city){
+//    $city='Not Define';
+// }if(!$country){
+//    $country='Not Define';
+// }
 //$country="SanjayTC";
-$userLocation = $city .', '. $country;
+// $userLocation = $city .', '. $country;
 //$userPage = $_SERVER['REQUEST_URI'];
-  if ($country=='India') {
+//   if ($country=='India') {/
 if ($userName && $senderEmail && $userPhone && $message) {
 
     // PHPMailer classes into the global namespace
 
     // create object of PHPMailer class with boolean parameter which sets/unsets exception.
-	$sql = "INSERT INTO req_query_table(full_name,phone_number,email,message,Location,subject,vpage_url)VALUES ('$userName','$userPhone','$senderEmail','$message','$userLocation','$userSubject','$userPage')";
-	
-	if ($conn->query($sql) === TRUE) {
+	// $stmt = $conn->prepare("INSERT INTO req_query_table(full_name,phone_number,email,message,Location,subject,vpage_url)VALUES ()");
+	$stmt = $conn->prepare("INSERT INTO req_query_table(full_name,phone_number,email,message,Location,subject,vpage_url) VALUES (?, ?, ?, ?, ?, ?, ?)");
+	$stmt->bind_param("sssssss",$userName,$userPhone,$senderEmail,$message,$userLocation,$userSubject,$userPage);
+    // die("<script>alert('at Databases line'); history.back();</script>");
+	if ($stmt->execute() === TRUE) {
    if ($subjectV == 'HomePage') {
     $Message = "&type=text&message=Thanks+for+contacting+Sanjay+Software+Consultant.+Regarding+your+queries.+We+will+get+back+to+you+soon,+you+can+post+more+queries+here....";
   }else {
@@ -70,7 +74,7 @@ if ($userName && $senderEmail && $userPhone && $message) {
   }
 
 	
-  $url = 'https://chatbot.veloxn.com/api/send?number=91' . $userPhone . $Message . '&instance_id=67DFEDB423C34&access_token=67dfed7721270';
+  $url = 'https://chatbot.veloxn.com/api/send?number=91' . $userPhone . $Message . '&instance_id=698C821A79867&access_token=69174aa47b39f';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -330,16 +334,17 @@ if ($userName && $senderEmail && $userPhone && $message) {
     // $msgBody = " Name: " . $userName . " Email: " . $senderEmail . " Phone: " . $userPhone . " Subject: " . $userSubject . " Message: " . $message . "";
     // $success = mail($recipient, $headers, $msgBody);
 
-    //Set Location After Successsfull Submission
-    header('Location: https://sanjaysoftware.in/thank-you.html');
+    //Set Location After Successsfull Submission'
+    echo "hii from php";
+    header('Location: http://localhost/sanjaysoftware/thank-you.html');
 } else {
     //Set Location After Unsuccesssfull Submission
     header('Location: https://sanjaysoftware.in/not-sent.html');
 }
-  }else {
-    //Set Location After Unsuccesssfull Submission
-	$sql = "INSERT INTO req_query_outofindia_outofindia(full_name,phone_number,email,message,Location,subject,vpage_url)VALUES ('$userName','$userPhone','$senderEmail','$message','$userLocation','$userSubject','$userPage')";
-    header('Location: https://sanjaysoftware.in/thank-you.html');
-}
+// else {
+//     //Set Location After Unsuccesssfull Submission
+// 	$sql = "INSERT INTO req_query_outofindia_outofindia(full_name,phone_number,email,message,Location,subject,vpage_url)VALUES ('$userName','$userPhone','$senderEmail','$message','$userLocation','$userSubject','$userPage')";
+//     header('Location: https://sanjaysoftware.in/thank-you.html');
+// }
 
 ?>

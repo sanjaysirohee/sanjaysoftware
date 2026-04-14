@@ -165,7 +165,7 @@
 		
 
         <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
+        <link href="css/style.css?v=1" rel="stylesheet">
 		
 		<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16877909130">
@@ -972,7 +972,8 @@ Thanks to Mr. Sanjay Kumar, we now have a robust software solution that’s both
                         <div class="col-md-8">                           
 						   <div class="contact-form">     
                                 <div id="success"></div>
-                                <form action="sendemail.php" method="post">
+                                <form action="sendemail.php" method="post" id="contactform">
+                                    <input type="hidden" name="otp" id="otpHidden"/>
 									<input type="hidden" name="subjectV" class="form-control" value="HomePage">
 							<input type="hidden" name="userPage" class="form-control" value="https://www.sanjaysoftware.in/">
                                     <div class="control-group">
@@ -983,8 +984,17 @@ Thanks to Mr. Sanjay Kumar, we now have a robust software solution that’s both
                                         <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="required" data-validation-required-message="Please enter your email" />
                                         <p class="help-block"></p>
                                     </div>
-                                    <div class="control-group">
-                                        <input type="text" class="form-control" name="phone_number" id="phone_number" placeholder="Your Phone Number" required="required" data-validation-required-message="Please enter your Phone Number" />
+                                    <div class="control-group input-group overflow-hidden">
+                                        <select
+                                                class="form-select border-0 font_14"
+                                                name="countryCode"
+                                                id="countryCode"
+                                                style="max-width: 160px;"
+                                                required
+                                                >
+                                                <option value="">Country Code</option>
+                                                </select>
+                                        <input type="text" class="form-control" name="phone_number" id="phoneno" placeholder="Your Phone Number" required="required" data-validation-required-message="Please enter your Phone Number" />
                                         <p class="help-block"></p>
                                     </div>
                                     <div class="control-group">
@@ -993,10 +1003,10 @@ Thanks to Mr. Sanjay Kumar, we now have a robust software solution that’s both
                                     </div>
 									
 									<div class="form-group">
-								<input type="text" name="vercode" class="form-control"
+								<input type="text" name="vercode" class="form-control" id="captcha"
 									placeholder=" Please enter the verfication code same as given below" required="required">
 							</div>							
-							<div><div style="width: 70%; float:left"><img src="captcha.php"></div><div style="width: 30%; float:right"><input type="submit" name="submit" id="form-submit" class="btn" value="Send Message"></div>
+							<div><div style="width: 70%; float:left"><img src="captcha.php"></div><div style="width: 30%; float:right"><input type="submit" name="submitBtn" id="form-submit" class="btn" value="Send Message"></div>
 										
                                     </div>
                                 </form>
@@ -1007,7 +1017,27 @@ Thanks to Mr. Sanjay Kumar, we now have a robust software solution that’s both
             </div>
     </div>
         <!-- Contact End -->
+ 
+<div id="otpModal" class="custom-modal">
 
+  <div class="custom-modal-content">
+
+    <div class="custom-modal-header">
+      <h5>Phone Verification</h5>
+    </div>
+
+    <div class="custom-modal-body">
+      <p>Please enter the OTP sent to your Whatsapp Number.</p>
+      <input type="text" id="otpInput" class="form-control" placeholder="Enter OTP">
+    </div>
+
+    <div class="custom-modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-danger" onclick="verifyotp()">Verify OTP</button>
+    </div>
+
+  </div>
+</div>
 
         <!-- Blog Start -->
         <div class="blog" id="blog">
@@ -1059,6 +1089,7 @@ Thanks to Mr. Sanjay Kumar, we now have a robust software solution that’s both
             </div>
         </div>
         <!-- Blog End -->
+
 
 <a href="https://api.whatsapp.com/send?phone=917678665537&text=Hello%20Sanjay,">
 					<img src="img/whatsapp2.png" alt="WhatsApp Icon" class="whatsapp-icon">
@@ -1125,5 +1156,63 @@ Thanks to Mr. Sanjay Kumar, we now have a robust software solution that’s both
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+        <script src="js/country-code.js"></script>
+        <script>
+
+
+    const form = document.getElementById("contactform");
+
+    form.addEventListener("submit", function(e){
+       
+        e.preventDefault();
+        const phoneno = document.getElementById('phoneno').value;
+        const captcha = document.getElementById('captcha').value;
+        const countryCode=document.getElementById('countryCode').value;
+        console.log(countryCode);
+        fetch(`./send_otp.php?phone=${phoneno}&vercode=${captcha}&countryCode=${countryCode}`)
+        .then(res => res.text())
+        .then(data => {
+            
+            data = data.trim();
+            console.log(data);
+            if(data == 'OTP_SENT'){
+                document.getElementById("otpModal").style.display = "flex";
+            }
+    else if(data === "INVALID_CAPTCHA"){
+       alert("Captcha is incorrect");
+    }
+    else if(data === "PHONE_MISSING"){
+        alert("Phone number missing");
+    }
+    else{
+        alert("Unexpected response: " + data);
+   }
+
+})
+    });
+
+function closeModal() {
+  document.getElementById("otpModal").style.display = "none";
+}
+
+</script>
+<script>
+   function verifyotp(){
+
+    let enteredOtp = document.getElementById("otpInput").value;
+
+    if(!enteredOtp){
+        alert("Enter OTP first");
+        return;
+    }
+
+    document.getElementById("otpHidden").value = enteredOtp;
+
+    console.log(document.getElementById("contactform"));
+    document.getElementById("contactform").submit();
+}
+
+
+</script>
     </body>
 </html>

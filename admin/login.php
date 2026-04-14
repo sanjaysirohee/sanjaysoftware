@@ -42,8 +42,19 @@ include('config.php');
         <div class="login-register" style="background-image:url(../assets/images/background/login-register.jpg);">
             <div class="login-box card">
                 <div class="card-body">
-                    <form class="form-horizontal form-material" id="loginform" action="<?php echo BASE_URL ?>admin/controller/auth.php" method="post">
-                          <?php
+                    <?php $baseurl = $_SERVER['SERVER_NAME'];
+                    if($baseurl==='localhost'){
+                        ?>
+                        <form class="form-horizontal form-material" id="loginform" action="<?php echo BASE_URL ?>sanjaysoftware/admin/controller/auth.php" method="post">
+                            <?php
+                    }
+                    else{
+                        ?>
+                        <form class="form-horizontal form-material" id="loginform" action="<?php echo BASE_URL ?>admin/controller/auth.php" method="post">
+                        <?php
+                    }
+
+                        
       if(isset($_SESSION['Not_match']))
       {
         ?>

@@ -129,6 +129,47 @@ a:focus {
     color: #414141;
 }
 
+.custom-modal {
+  display: none ;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-modal-content {
+  background: #fff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.5);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.custom-modal-header,
+.custom-modal-footer {
+  padding: 15px 20px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.custom-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-modal-body {
+  padding: 20px;
+}
+
+.custom-modal-footer {
+  border-top: 1px solid #dee2e6;
+  border-bottom: none;
+  text-align: right;
+}
+
 
 /**********************************/
 /*********** Nav Bar CSS **********/

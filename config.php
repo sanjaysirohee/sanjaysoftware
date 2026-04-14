@@ -6,7 +6,7 @@ if($baseurl=='localhost')
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "sanjaysoftwaredb";
+$dbname = "sanjaysoftware_db";
 }else{
  $servername = "localhost";
  $username = "sanjaysoftware_db";
